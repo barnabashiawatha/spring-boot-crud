@@ -1,0 +1,16 @@
+.table {
+    text-align: left;
+}
+
+.table th {
+    width: 200px;
+    font-size: 12px;
+}
+
+.table button {
+    width: 180px;
+}
+
+.menu-row {
+    padding-bottom: 20px;
+}

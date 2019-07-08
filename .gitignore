@@ -1,0 +1,6 @@
+.gradle/
+.idea/
+build/
+out/
+src/main/resources/view/build/
+src/main/resources/view/node_modules/
