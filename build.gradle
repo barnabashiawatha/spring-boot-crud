@@ -43,6 +43,8 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-security")
     compile('org.postgresql:postgresql')
+    compile("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.1.1.RELEASE")
+    compile("org.springframework.security:spring-security-oauth2-client:5.1.5.RELEASE")
     compileOnly('org.projectlombok:lombok:1.18.8')
     annotationProcessor('org.projectlombok:lombok:1.18.8')
     testCompile('org.springframework.boot:spring-boot-starter-test')
