@@ -1,17 +1,19 @@
 package crud.controller;
 
+import org.springframework.boot.autoconfigure.ldap.embedded.EmbeddedLdapProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
 @Controller
 public class CrudController {
 
     @GetMapping("/crud")
-    public String crud() {
+    public String crud(Principal principal) {
         return "index.html";
     }
 

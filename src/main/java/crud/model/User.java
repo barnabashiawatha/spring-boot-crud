@@ -13,6 +13,7 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = -2343243243242432341L;
 
+    @Setter
     @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
