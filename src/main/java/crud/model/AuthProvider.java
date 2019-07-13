@@ -1,5 +1,5 @@
 package crud.model;
 
 public enum AuthProvider {
-    google, vk
+    local, google, vk
 }

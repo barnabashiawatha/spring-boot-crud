@@ -3,7 +3,6 @@ package crud.controller;
 import crud.model.Role;
 import crud.model.User;
 import crud.repository.UserRepository;
-import net.bytebuddy.build.CachedReturnPlugin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -28,16 +27,16 @@ public class RegistrationController {
     @PostMapping("/registration")
     @ResponseBody
     public void addUser(@RequestBody User user, final Principal principal) {
-        if (principal == null) {
-            var userFromDb = userRepository.findByUsername(user.getUsername());
-
-            if (userFromDb != null) {
-                return;
-            }
-
-            user.setActive(true);
-            user.setRoles(Collections.singleton(Role.USER));
-            userRepository.save(user);
-        }
+//        if (principal == null) {
+//            var userFromDb = userRepository.findByUsername(user.getName());
+//
+//            if (userFromDb != null) {
+//                return;
+//            }
+//
+//            user.setActive(true);
+//            user.setRoles(Collections.singleton(Role.USER));
+//            userRepository.save(user);
+//        }
     }
 }

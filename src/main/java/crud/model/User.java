@@ -1,19 +1,20 @@
 package crud.model;
 
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Set;
 
-@RequiredArgsConstructor
-@NoArgsConstructor
+//@RequiredArgsConstructor
+//@NoArgsConstructor
 @Entity
 @Table(name = "usr")
-public class User implements Serializable {
-
-    private static final long serialVersionUID = -2343243243242432341L;
+public class User {
 
     @Setter
     @Getter
@@ -23,25 +24,45 @@ public class User implements Serializable {
 
     @Setter
     @Getter
-    @NonNull
-    @Column(name = "username", unique = true)
-    private String username;
+//    @NonNull
+    @Column(nullable = false)
+    private String name;
+
+    @Getter
+    @Setter
+    @Email
+    @Column(nullable = false)
+    private String email;
 
     @Setter
     @Getter
-    @NonNull
-    @Column (name = "password")
+//    @NonNull
+    @JsonIgnore
     private String password;
 
-    @Setter
     @Getter
-    @Column(name = "active")
-    private boolean active;
+    @Setter
+    private Boolean emailVerified = false;
+
+//    @Setter
+//    @Getter
+//    @Column(name = "active")
+//    private boolean active;
+
+//    @Getter
+//    @Setter
+//    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+//    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+//    @Enumerated(EnumType.STRING)
+//    private Set<Role> roles;
 
     @Getter
     @Setter
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @NotNull
     @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
+    private AuthProvider provider;
+
+    @Getter
+    @Setter
+    private String providerId;
 }

@@ -2,24 +2,38 @@ package crud.security;
 
 import crud.model.Role;
 import crud.model.User;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 public class UserPrincipal implements OAuth2User, UserDetails {
+
+    @Getter
     private Long id;
+
+    @Getter
+    private String email;
+
+    @Getter
     private String password;
+
+    @Getter
     private Collection<? extends GrantedAuthority> authorities;
+
+    @Getter
+    @Setter
     private Map<String, Object> attributes;
 
-    public UserPrincipal(Long id, String password, Collection<? extends GrantedAuthority> authorities) {
+    public UserPrincipal(Long id, String email, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
+        this.email = email;
         this.password = password;
         this.authorities = authorities;
     }
@@ -30,6 +44,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 
         return new UserPrincipal(
                 user.getId(),
+                user.getEmail(),
                 user.getPassword(),
                 authorities
         );
@@ -39,20 +54,6 @@ public class UserPrincipal implements OAuth2User, UserDetails {
         UserPrincipal userPrincipal = UserPrincipal.create(user);
         userPrincipal.setAttributes(attributes);
         return userPrincipal;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return String.valueOf(id);
     }
 
     @Override
@@ -76,21 +77,12 @@ public class UserPrincipal implements OAuth2User, UserDetails {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
-    }
-
-    @Override
-    public Map<String, Object> getAttributes() {
-        return attributes;
-    }
-
-    public void setAttributes(Map<String, Object> attributes) {
-        this.attributes = attributes;
-    }
-
-    @Override
     public String getName() {
         return String.valueOf(id);
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
     }
 }

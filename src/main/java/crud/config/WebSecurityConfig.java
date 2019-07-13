@@ -1,4 +1,4 @@
-package crud.security;
+package crud.config;
 
 import crud.model.User;
 import crud.repository.UserRepository;
@@ -30,9 +30,9 @@ import javax.servlet.Filter;
 import javax.sql.DataSource;
 import java.util.ArrayList;
 
-@EnableWebSecurity
-@Configuration
-@EnableOAuth2Client
+//@EnableWebSecurity
+//@Configuration
+//@EnableOAuth2Client
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Autowired
@@ -161,7 +161,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 //                var newUser = new User();
 //
 //                newUser.setId(id);
-//                newUser.setUsername((String) map.get("name"));
+//                newUser.setName((String) map.get("name"));
 //
 //                return newUser;
 //            });

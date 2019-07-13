@@ -1,16 +1,15 @@
 package crud.security;
 
+import crud.exception.ResourceNotFoundException;
 import crud.model.User;
 import crud.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
+import javax.transaction.Transactional;
 
 @Component
 public class CustomUserDetailsService implements UserDetailsService {
@@ -18,18 +17,22 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-    private PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var user = userRepository.findByUsername(username);
+    @Transactional
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        return  toUserDetails(user);
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+
+        return UserPrincipal.create(user);
     }
 
-    private UserDetails toUserDetails(User user) {
-        return org.springframework.security.core.userdetails.User.withUsername(user.getUsername())
-                .password(encoder.encode(user.getPassword()))
-                .roles(user.getRoles().toString()).build();
+    @Transactional
+    public UserDetails loadUserById(Long id) {
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("User", "id", id)
+        );
+
+        return UserPrincipal.create(user);
     }
 }
