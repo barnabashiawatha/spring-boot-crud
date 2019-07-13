@@ -1,6 +1,8 @@
 package crud.model;
 
 import lombok.*;
+import org.hibernate.validator.constraints.UniqueElements;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
@@ -22,7 +24,7 @@ public class User implements Serializable {
     @Setter
     @Getter
     @NonNull
-    @Column(name = "username")
+    @Column(name = "username", unique = true)
     private String username;
 
     @Setter
