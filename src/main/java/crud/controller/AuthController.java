@@ -2,6 +2,7 @@ package crud.controller;
 
 import crud.exception.BadRequestException;
 import crud.model.AuthProvider;
+import crud.model.Role;
 import crud.model.User;
 import crud.payload.ApiResponse;
 import crud.payload.AuthResponse;
@@ -16,14 +17,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.HashSet;
 
 @RestController
 @RequestMapping("/auth")
@@ -62,11 +61,15 @@ public class AuthController {
             throw new BadRequestException("Email address already in use.");
         }
 
+        var roles = new HashSet<Role>();
+        roles.add(Role.USER);
+
         User user = new User();
         user.setName(signUpRequest.getName());
         user.setEmail(signUpRequest.getEmail());
         user.setPassword(signUpRequest.getPassword());
         user.setProvider(AuthProvider.local);
+        user.setRoles(roles);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 

@@ -2,6 +2,7 @@ package crud.security.oauth;
 
 import crud.exception.OAuth2AuthenticationProcessingException;
 import crud.model.AuthProvider;
+import crud.model.Role;
 import crud.model.User;
 import crud.repository.UserRepository;
 import crud.security.UserPrincipal;
@@ -17,7 +18,9 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
@@ -47,7 +50,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
         }
 
-        Optional<User> userOptional = userRepository.findByEmail(oAuth2UserInfo.getEmail());
+        var userOptional = userRepository.findByEmail(oAuth2UserInfo.getEmail());
         User user;
 
         if (userOptional.isPresent()) {
@@ -69,10 +72,15 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private User registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
        var user = new User();
 
+       var roles = new HashSet<Role>();
+       roles.add(Role.USER);
+
        user.setProvider(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
        user.setProviderId(oAuth2UserInfo.getId());
        user.setName(oAuth2UserInfo.getName());
        user.setEmail(oAuth2UserInfo.getEmail());
+       user.setActive(true);
+       user.setRoles(roles);
 
        return  userRepository.save(user);
     }
