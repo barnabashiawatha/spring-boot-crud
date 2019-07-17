@@ -19,9 +19,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import javax.validation.Valid;
 import java.net.URI;
+import java.security.Principal;
 import java.util.HashSet;
 
 @RestController
@@ -40,6 +40,11 @@ public class AuthController {
     @Autowired
     private TokenProvider tokenProvider;
 
+    @GetMapping
+    public String authenticateUser(Principal principal) {
+       return principal != null ? "redirect:/" : "login.html";
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
@@ -53,6 +58,12 @@ public class AuthController {
 
         String token = tokenProvider.createToken(authentication);
         return ResponseEntity.ok(new AuthResponse(token));
+    }
+
+    //TODO change registration.js to signup.js and registration.html to sighup.html
+    @GetMapping("/signup")
+    public String registerUser(Principal principal) {
+        return principal != null ? "redirect:/" : "sighup.html";
     }
 
     @PostMapping("/signup")

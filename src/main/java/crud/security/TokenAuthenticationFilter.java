@@ -12,6 +12,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -51,13 +52,28 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+    //TODO change from header handling to cookie one
     private String getJwtFromRequest(HttpServletRequest request) {
-        var bearerToken = request.getHeader("Authorization");
+//        var bearerToken = request.getHeader("Authorization");
+//
+//        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+//            return bearerToken.substring(7, bearerToken.length());
+//        }
+//
+//        return null;
 
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7, bearerToken.length());
-        }
+        return request.getHeader("Cookie").substring(21);
 
-        return null;
+        //TODO getCookies() always returns null. Find out why.
+//        var cookies = request.getCookies();
+//        if (cookies != null) {
+//            for (Cookie cookie: cookies) {
+//                if (cookie.getName().equals("Authorization") && cookie.getValue().startsWith("Bearer ")) {
+//                    return cookie.getValue().substring(7);
+//                }
+//            }
+//        }
+//
+//        return null;
     }
 }

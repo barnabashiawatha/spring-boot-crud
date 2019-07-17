@@ -113,6 +113,12 @@ module.exports = {
             filename: './error.html',
             inject: false,
         }),
+        new HtmlWebpackPlugin({
+            hash: false,
+            template: `${PATHS.src}/oauth2Redirect.html`,
+            filename: './oauth2Redirect.html',
+            inject: false,
+        }),
         new CopyWebpackPlugin([
             { from: `${PATHS.src}/img`, to: `${PATHS.build}/img` },
             { from: `${PATHS.src}/js/lib`, to: `${PATHS.build}/js/lib`},
