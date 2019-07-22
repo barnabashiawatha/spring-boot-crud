@@ -1,5 +1,6 @@
 'use strict';
 
+import { auth } from './api/auth.js';
 import { api } from './api/api.js';
 
 async function findAll() {
@@ -8,8 +9,10 @@ async function findAll() {
     await api.findAll().then( customers => {
         customers.map( customer => result += `name: ${customer.name} age: ${customer.age}<br>` );
     });
-
+    
+    $('.result').slideUp('slow');
     $('.result').html(result);
+    $('.result').slideDown('slow');
 }
 
 async function bulkcreate() {
@@ -22,7 +25,9 @@ async function findCustomerById() {
     const id = $('.id_find').val();
     const customer = await api.findCustomerById(id);
 
+    $('.result').slideUp('slow');
     $('.result').html(`name: ${customer.name} age: ${customer.age}<br>`);
+    $('.result').slideDown('slow');
 }
 
 async function findCustomerByName() {
@@ -33,7 +38,9 @@ async function findCustomerByName() {
         customers.map( customer => result += `name: ${customer.name} age: ${customer.age}<br>` );
     });;
 
+    $('.result').slideUp('slow');
     $('.result').html(result);
+    $('.result').slideDown('slow');
 }
 
 async function deleteCustomerById() {
@@ -52,24 +59,28 @@ async function deleteCustomerByName() {
 }
 
 function clearTable() {
-    $('.result').html('');
+    $('.result').slideUp('slow', () => {
+        $('.result').html('');
+    })
 }
 
 async function clearRepository() {
+    $('.customers').slideUp('slow');
     await api.clearRepository();
 
-    showCustomers();
 }
 
 async function deleteThisCustomer(e) {
     const id = $(e.target).parent().siblings('.id').html();
-    await api.deleteCustomerById(id);
+    $('.customers').slideUp('slow', async () => {
+        await api.deleteCustomerById(id);
+    });
 
     showCustomers();
 }
 
-function logOut() {
-    api.logOut();
+function logout() {
+    auth.logout();
 }
 
 async function saveCustomer() {
@@ -91,18 +102,22 @@ async function saveCustomer() {
 }
 
 async function showCustomers() {
-    $('.customer').remove();
-    const customers = await api.findAll();
+    $('.customers').slideUp('fast', async () => {
+        $('.customer').remove();
+        const customers = await api.findAll();
 
-    customers.map((customer, index) => {
-        $('.customers')
-            .append($('<tr></tr>').addClass('customer')
-                .append($('<th></th>').html(`${index + 1}`))
-                .append($('<th></th>').html(`${customer.id}`).addClass('id'))
-                .append($('<th></th>').html(`${customer.name}`))
-                .append($('<th></th>').html(`${customer.age}`))
-                .append($('<th></th>')
-                .append($('<button></button>').html('delete').click(deleteThisCustomer.bind(this)))))
+        customers.map((customer, index) => {
+            $('.customers')
+                .append($('<tr></tr>').addClass('customer row justify-content-center table-customers-row')
+                    .append($('<th></th>').addClass('col-1').html(`${index + 1}`))
+                    .append($('<th></th>').addClass('col-1').html(`${customer.id}`).addClass('id'))
+                    .append($('<th></th>').addClass('col-5').html(`${customer.name}`))
+                    .append($('<th></th>').addClass('col-2').html(`${customer.age}`))
+                    .append($('<th></th>').addClass('col-2')
+                    .append($('<button></button>').addClass('btn btn-primary btn-delete').html('X').click(deleteThisCustomer.bind(this)))))
+        });
+
+    $('.customers').slideDown('slow');
     });
 }
 
@@ -115,7 +130,7 @@ window.deleteCustomerByName = deleteCustomerByName;
 window.clearTable = clearTable;
 window.clearRepository = clearRepository;
 window.deleteThisCustomer = deleteThisCustomer;
-window.logOut = logOut;
+window.logout = logout;
 window.saveCustomer = saveCustomer;
 window.showCustomers = showCustomers;
 

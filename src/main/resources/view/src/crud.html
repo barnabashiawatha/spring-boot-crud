@@ -1,0 +1,97 @@
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/crud.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>      <meta charset="UTF-8">
+    <title>CRUD</title>
+</head>
+<body>
+
+    <div class="container">
+        <div class="wrapper">
+
+            <hr>
+
+            <div class="row justify-content-center">
+                <input class="btn btn-primary col-12 col-sm-8 col-md-2 offset-md-10 col-lg-2 offset-lg-10" type="submit" value="Sign out" onclick="logout()">
+            </div>
+            <div class="row justify-content-center">
+                <button class="btn btn-primary col-12 col-sm-8 col-md-4 col-lg-3 mr-md-2" onclick="bulkcreate()">Bulkcreate</button>
+                <p class="text col col-sm-8 col-md-4 col-lg-3">&lt;&lt;&lt; This button creates the five entries into the db</p>
+            </div>
+            <div class="row justify-content-center">
+                <button class="btn btn-primary col-12 col-sm-8 col-md-4 col-lg-3 mr-md-2" onclick="findCustomerById()">Find by id</button>
+                <input class="form-input id_find col-12 col-sm-8 col-md-4 col-lg-3" type="text" placeholder="id">
+            </div>
+            <div class="row justify-content-center">
+                <button class="btn btn-primary col-12 col-sm-8 col-md-4 col-lg-3 mr-md-2" onclick="findCustomerByName()">Find by name</button>
+                <input class="form-input name_find col-12 col-sm-8 col-md-4 col-lg-3" type="text" placeholder="name">
+            </div>
+            <div class="row justify-content-center">
+                <button class="btn btn-primary col-12 col-sm-8 col-md-4 col-lg-3 mr-md-2" onclick="deleteCustomerById()">Delete by id</button>
+                <input class="form-input id_delete col-12 col-sm-8 col-md-4 col-lg-3" type="text" placeholder="id">
+            </div>
+            <div class="row justify-content-center">
+                <button class="btn btn-primary col-12 col-sm-8 col-md-4 col-lg-3 mr-md-2" onclick="deleteCustomerByName()">Delete by name</button>
+                <input class="form-input name_delete col-12 col-sm-8 col-md-4 col-lg-3" type="text" placeholder="name">
+            </div>
+            <div class="row justify-content-md-center">
+                <button class="btn btn-primary col-5 col-sm-3 offset-sm-2 col-md-4 mr-md-2 offset-md-0 col-lg-3" onclick="findAll()">Find all</button>
+                <button class="btn btn-primary col-5 offset-2 col-sm-3 offset-sm-2 col-md-4 offset-md-0 col-lg-3" onclick="clearTable()">Clear</button>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="result col-12 col-sm-8 offset-sm-2 offset-md-3"></div>
+            </div>            
+
+            <hr>
+
+            <div class="row">
+                <div class="col-3 d-none">
+                    <p class="table-caption">id</p>
+                    <p class="table-caption">Name</p>
+                    <p class="table-caption">Age</p>
+                </div>
+                <div class="col">
+                    <div class="row justify-content-center">
+                        <button class="d-none d-lg-block btn btn-primary col col-lg-2 mr-lg-2" onclick="saveCustomer()">Add</button>
+                        <input class="form-input add-id col-12 col-sm-8 col-lg-2 mr-lg-2" type="text" placeholder="id (for update)">
+                        <input class="form-input add-name col-sm-8 col-lg-2 mr-lg-2" type="text" placeholder="name">
+                        <input class="form-input add-age col-sm-8 col-lg-2 mr-lg-2" type="text" placeholder="age">
+                        <button class="btn btn-primary d-none d-lg-block col-lg-2" onclick="clearRepository()">Clear repo</button>
+                    </div>
+                </div>
+           </div>
+            
+            <div class="row">
+                <button class="d-lg-none btn btn-primary col-5 col-sm-3 offset-sm-2 col-md-3" onclick="saveCustomer()">Add</button>
+                <button class="btn btn-primary d-lg-none col-5 offset-2 col-sm-3 offset-sm-2 col-md-3" onclick="clearRepository()">Clear repo</button>
+            </div>
+
+            <br>
+
+            <table class="table-customers row justify-content-center">
+                <thead class="col-12 col-sm-8 col-md-10">
+                    <tr class="table-customers-row row justify-content-center">
+                        <th class="col-1">№</th>
+                        <th class="col-1">Id</th>
+                        <th class="col-5">Name</th>
+                        <th class="col-4">Age</th>
+                    </tr>
+                </thead>
+                <tbody class="customers col-12 col-sm-8 col-md-10"></tbody>
+            </table>
+            <br>
+            <hr>
+
+        </div>
+    </div>
+
+    <script src="js/crud.js"></script>
+</body>
+</html>

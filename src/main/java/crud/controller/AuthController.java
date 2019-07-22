@@ -40,11 +40,6 @@ public class AuthController {
     @Autowired
     private TokenProvider tokenProvider;
 
-    @GetMapping
-    public String authenticateUser(Principal principal) {
-       return principal != null ? "redirect:/" : "login.html";
-    }
-
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
@@ -60,11 +55,6 @@ public class AuthController {
         return ResponseEntity.ok(new AuthResponse(token));
     }
 
-    //TODO change registration.js to signup.js and registration.html to sighup.html
-    @GetMapping("/signup")
-    public String registerUser(Principal principal) {
-        return principal != null ? "redirect:/" : "sighup.html";
-    }
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {

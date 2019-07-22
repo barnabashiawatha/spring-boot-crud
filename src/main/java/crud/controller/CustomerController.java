@@ -3,7 +3,7 @@ package crud.controller;
 import crud.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import crud.model.CustomerUI;
+import crud.payload.CustomerUI;
 import java.util.List;
 
 @RestController
@@ -28,27 +28,27 @@ public class CustomerController {
         return service.findAll();
     }
 
-    @PostMapping("/findbyid")
-    public CustomerUI findCustomerById(@RequestBody String id) {
+    @GetMapping("/findbyid")
+    public CustomerUI findCustomerById(@RequestParam("id") String id) {
         return service.findCustomerById(id);
     }
 
-    @PostMapping("/findbyname")
-    public List<CustomerUI> findCustomerByName(@RequestBody String name) {
+    @GetMapping("/findbyname")
+    public List<CustomerUI> findCustomerByName(@RequestParam("name") String name) {
         return service.findCustomerName(name);
     }
 
-    @PostMapping("/deletebyid")
-    public void deleteCustomerById(@RequestBody String id) {
+    @GetMapping("/deletebyid")
+    public void deleteCustomerById(@RequestParam("id") String id) {
         service.deleteCustomerById(id);
     }
 
-    @PostMapping("/deletebyname")
-    public void deleteCustomerByName(@RequestBody String name) {
+    @GetMapping("/deletebyname")
+    public void deleteCustomerByName(@RequestParam("name") String name) {
         service.deleteCustomerByName(name);
     }
 
-    @PostMapping("/deleteall")
+    @GetMapping("/deleteall")
     public void clearRepository() {
         service.clearRepository();
     }

@@ -1,4 +1,4 @@
-package crud.model;
+package crud.payload;
 
 import lombok.*;
 

@@ -1,14 +1,15 @@
 'use strict';
 
-import { api } from './api/api.js';
+import { auth } from './api/auth.js';
 
 function login() {
     const user = {
-        email: $('.username').val(),
+        email: $('.email').val(),
         password: $('.password').val(), 
     };
 
-    api.logIn(user);
+    auth.login(user);
+    location.replace('/crud');
 }
 
 function loginVk() {

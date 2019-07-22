@@ -48,7 +48,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             logger.error("Could not set user authentication in security context", ex);
         }
 
-
         filterChain.doFilter(request, response);
     }
 
@@ -61,7 +60,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 //        }
 //
 //        return null;
-
+//        System.out.println(request.getHeader());
         return request.getHeader("Cookie").substring(21);
 
         //TODO getCookies() always returns null. Find out why.

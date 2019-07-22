@@ -1,1 +1,0 @@
-import '../js/registration.js';

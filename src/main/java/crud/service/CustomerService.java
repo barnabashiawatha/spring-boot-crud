@@ -1,7 +1,7 @@
 package crud.service;
 
 import crud.model.Customer;
-import crud.model.CustomerUI;
+import crud.payload.CustomerUI;
 import crud.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

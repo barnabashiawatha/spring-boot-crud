@@ -18,9 +18,9 @@ module.exports = {
         paths: PATHS,
     },
     entry: {
-        index: `${PATHS.js}/index.js`,
-        registration: `${PATHS.js}/registration.js`,
+        signup: `${PATHS.js}/signup.js`,
         login: `${PATHS.js}/login.js`,
+        crud: `${PATHS.js}/crud.js`,
     },
     output: {
         library: 'crud',
@@ -91,14 +91,14 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             hash: false,
-            template: `${PATHS.src}/index.html`,
-            filename: './index.html',
+            template: `${PATHS.src}/crud.html`,
+            filename: './crud.html',
             inject: false,
         }),
         new HtmlWebpackPlugin({
             hash: false,
-            template: `${PATHS.src}/registration.html`,
-            filename: './registration.html',
+            template: `${PATHS.src}/signup.html`,
+            filename: './signup.html',
             inject: false,
         }),
         new HtmlWebpackPlugin({
