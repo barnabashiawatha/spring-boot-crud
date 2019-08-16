@@ -18,6 +18,7 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request,
                          HttpServletResponse response,
                          AuthenticationException e) throws IOException, ServletException {
+
         logger.error("Responding with unauthorized error. Message - {}", e.getMessage());
         response.sendError(response.SC_UNAUTHORIZED, e.getLocalizedMessage());
     }

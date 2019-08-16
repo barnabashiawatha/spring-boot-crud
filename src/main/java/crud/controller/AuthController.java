@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
-import java.security.Principal;
+import java.util.Collections;
 import java.util.HashSet;
 
 @RestController
@@ -62,6 +62,7 @@ public class AuthController {
             throw new BadRequestException("Email address already in use.");
         }
 
+        //TODO optimize this
         var roles = new HashSet<Role>();
         roles.add(Role.USER);
 
@@ -70,12 +71,14 @@ public class AuthController {
         user.setEmail(signUpRequest.getEmail());
         user.setPassword(signUpRequest.getPassword());
         user.setProvider(AuthProvider.local);
-        user.setRoles(roles);
+        user.setActive(true);
+        user.setRoles(Collections.singleton(Role.USER));
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         User result = userRepository.save(user);
 
+        //TODO do I need it?
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/user/me")
                 .buildAndExpand(result.getId()).toUri();

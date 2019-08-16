@@ -3,4 +3,7 @@
 build/
 out/
 src/main/resources/view/build/
-src/main/resources/view/node_modules/
+src/main/resources/view/src/auth/node_modules/
+src/main/resources/view/src/crud/node_modules/
+src/main/resources/view/src/crud/build/
+src/main/resources/view/src/auth/build/

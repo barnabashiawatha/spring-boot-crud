@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -16,6 +15,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Optional;
 
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
@@ -51,28 +52,18 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    //TODO change from header handling to cookie one
     private String getJwtFromRequest(HttpServletRequest request) {
-//        var bearerToken = request.getHeader("Authorization");
-//
-//        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-//            return bearerToken.substring(7, bearerToken.length());
-//        }
-//
-//        return null;
-//        System.out.println(request.getHeader());
-        return request.getHeader("Cookie").substring(21);
+        Optional<Cookie[]> cookies = Optional.ofNullable(request.getCookies());
 
-        //TODO getCookies() always returns null. Find out why.
-//        var cookies = request.getCookies();
-//        if (cookies != null) {
-//            for (Cookie cookie: cookies) {
-//                if (cookie.getName().equals("Authorization") && cookie.getValue().startsWith("Bearer ")) {
-//                    return cookie.getValue().substring(7);
-//                }
-//            }
-//        }
-//
-//        return null;
+        if (cookies.isPresent()) {
+            Optional<String> bearerToken = Arrays.stream(cookies.get())
+                    .filter(cookie -> cookie.getName().equals("Authorization")).map(Cookie::getValue).findFirst();
+
+//            if (bearerToken.isPresent())  return bearerToken.get();
+            bearerToken.orElseGet(null);
+        }
+
+
+        return null;
     }
 }

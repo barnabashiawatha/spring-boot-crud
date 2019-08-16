@@ -8,14 +8,9 @@ import java.security.Principal;
 @Controller
 public class ResourceController {
 
-    @GetMapping("/login")
-    public String authenticateUser(Principal principal) {
-       return principal != null ? "redirect:/" : "login.html";
-    }
-
-    @GetMapping("/signup")
-    public String registerUser(Principal principal) {
-        return principal != null ? "redirect:/" : "signup.html";
+    @GetMapping(value = {"/login", "/signup"})
+    public String authenticatePage(Principal principal) {
+       return principal != null ? "redirect:/crud" : "auth.html";
     }
 
     @GetMapping("/")
